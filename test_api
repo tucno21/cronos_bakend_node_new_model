@@ -1,0 +1,50 @@
+POST - http: //192.168.21.100:8000/api/auth/register
+{
+    "nombre": "carlos",
+    "email": "carlos2@carlos.com",
+    "password": "carlos"
+}
+
+POST - http: //192.168.21.100:8000/api/auth/login
+{
+    "email": "carlos2@carlos.com",
+    "password": "carlos"
+}
+
+### ETIQUETAS
+GET - http: //192.168.21.100:8000/api/etiquetas
+POST - http: //192.168.21.100:8000/api/etiquetas
+{
+    "nombre": "Terror"
+}
+GET - http: //192.168.21.100:8000/api/etiquetas/10
+PUT - http: //192.168.21.100:8000/api/etiquetas/10
+{
+    "nombre": "Terror"
+}
+DELETE - http: //192.168.21.100:8000/api/etiquetas/10
+
+### BLOG
+GET - http: //192.168.21.100:8000/api/blogs
+POST - http: //192.168.21.100:8000/api/blogs
+{
+    "titulo": "la casa",
+    "contenido": "La casa de papel",
+    "usuario_id": 1,
+    "etiquetas": [
+        2,
+        5
+    ]
+}
+GET - http: //192.168.21.100:8000/api/blogs/10
+PUT - http: //192.168.21.100:8000/api/blogs/10
+{
+    "titulo": "la casa",
+    "contenido": "La casa de papel",
+    "usuario_id": 1,
+    "etiquetas": [
+        1,
+        3
+    ]
+}
+DELETE - http: //192.168.21.100:8000/api/blogs/10

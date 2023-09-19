@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+        /* Otros estilos globales que desees aplicar */
+    }
+
+    .container {
+        padding: 2rem 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .title {
+        font-size: 3rem;
+        color: rgb(119, 7, 7);
+        text-align: center;
+    }
+
+    .form-content {
+        margin-top: 1rem;
+    }
+
+    .form {
+        display: flex;
+        gap: 0.2rem;
+    }
+
+    /* Estilos para el campo de entrada de texto en el formulario */
+    .imput-form {
+        flex-grow: 1;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-right: 10px;
+        /* Espacio entre el campo de entrada y el botón */
+    }
+
+    /* Estilos para el botón de envío en el formulario */
+    .button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    /* Estilos para el contenedor de mensajes */
+    .mensajes {
+        background-color: #fff;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+
+    /* Estilos para los mensajes dentro del contenedor de mensajes */
+    .mensajes p {
+        margin: 0;
+        margin-bottom: 6px;
+        padding: 5px 10px;
+        background-color: #f2f2f2;
+        border-radius: 4px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+    }
+</style>
+
+<body>
+    <div class="container">
+
+
+        <h1 class="title">Mini Chat</h1>
+
+        <div class="form-content">
+            <div class="form_mensaje">
+                <form class="form">
+                    <input type="text" name="mensaje" id="mensaje" class="imput-form" autocomplete="off">
+                    <button type="submit" class="button">Enviar</button>
+                </form>
+            </div>
+            <div class="mensajes">
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"
+        integrity="sha512-zoJXRvW2gC8Z0Xo3lBbao5+AS3g6YWr5ztKqaicua11xHo+AvE1b0lT9ODgrHTmNUxeCw0Ry4BGRYZfXu70weg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        const socket = io('http://localhost:8081');
+
+        const form = document.querySelector('.form');
+        const mensaje = document.querySelector('#mensaje');
+        const mensajes = document.querySelector('.mensajes')
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const texto = mensaje.value
+            if (texto === '') return
+
+            //enviar mensaje al server con io
+            socket.emit('mensaje-to-server', { texto })
+            mensaje.value = '';
+        })
+
+        //resibir el mensaje del servidor
+        socket.on('mensaje-from-server', (data) => {
+            const nuevoMensaje = document.createElement('p');
+            nuevoMensaje.textContent = data.texto;
+            mensajes.appendChild(nuevoMensaje);
+        });
+
+    </script>
+</body>
+
+</html>
